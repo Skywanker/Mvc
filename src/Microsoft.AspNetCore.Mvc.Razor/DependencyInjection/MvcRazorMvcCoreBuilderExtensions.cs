@@ -127,11 +127,6 @@ namespace Microsoft.Extensions.DependencyInjection
         // Internal for testing.
         internal static void AddRazorViewEngineServices(IServiceCollection services)
         {
-            services.TryAddEnumerable(
-                ServiceDescriptor.Transient<
-                    IConfigureOptions<RazorViewEngineOptions>,
-                    DependencyContextRazorViewEngineOptionsSetup>());
-
             // This caches compilation related details that are valid across the lifetime of the application.
             services.TryAddSingleton<ICompilationService, DefaultRoslynCompilationService>();
 
@@ -139,6 +134,10 @@ namespace Microsoft.Extensions.DependencyInjection
                 ServiceDescriptor.Transient<IConfigureOptions<MvcViewOptions>, MvcRazorMvcViewOptionsSetup>());
             services.TryAddEnumerable(
                 ServiceDescriptor.Transient<IConfigureOptions<RazorViewEngineOptions>, RazorViewEngineOptionsSetup>());
+            services.TryAddEnumerable(
+                ServiceDescriptor.Transient<
+                    IConfigureOptions<RazorViewEngineOptions>,
+                    DependencyContextRazorViewEngineOptionsSetup>());
 
             services.TryAddSingleton<
                 IRazorViewEngineFileProviderAccessor,
